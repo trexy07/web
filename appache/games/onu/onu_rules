@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<style>
+body {
+ background:black;
+ color:white;
+}
+</style>
+<head>
+</head>
+
+
+<body>
+
+<h1>
+    ONU Rules
+</h1>
+
+
+<h2>
+    Setup
+</h2>
+
+<p>
+The deck is shuffled.
+</p><p>
+A player is then selected to have the role of Dealer.  If the game is a a New
+Game, the Dealer is selected randomly.  If the game is a Play-Again Game, the
+Dealer is the player to the left of the previous Dealer.  The Order of Play
+starts with the player left of the Dealer, and continues clockwise.
+</p><p>
+Every player is dealt 1 card, face-down, in the order of play.  This process is
+performed a total of 7 times.
+</p><p>
+Then, all players place aside any Wild-Draw-4 cards which they have in their
+hand, and draw the same number of new cards from the deck.  This is repeated
+until no players are in possession of any Wild-Draw-4 cards.  The Wild-Draw-4
+cards which have been placed aside, if any, are then shuffled back into the
+deck.
+</p><p>
+Finally, the dealer draws a card from the deck, and places it, regardless of its
+type, color, or value.  Play then begins, starting to the left of the dealer and
+continuing clockwise.
+</p>
+
+
+
+<h2>
+    Gameplay
+</h2>
+
+<p>
+The player to the left of the dealer starts play.  On their turn, every player
+must, if able, play a card from their hand which matches the card on of the
+discard pile (i.e., the card most recently played).  Cards match if one or more
+of the following conditions is true:
+<ul>
+    <li>
+        Both cards have the same color value
+    </li><li>
+        Both cards have the same numeric value (this condition cannot be met if
+        either card does not have a numeric value)
+    </li><li>
+        Both cards have the same symbolic value (this condition cannot be met if
+        either card does not have a symbolic value)
+    </li>
+</ul>
+</p><p>
+If, on their turn, a player is unable to play a card from their hand which
+matches the card on the top of the discard pile, they must draw a single card.
+If that card matches the top of the discard pile, they must play it.  If not,
+their turn ends.
+</p><p>
+After a player plays a card such that it leaves them with exactly one card
+remaining in their hand, (i.e., when they play their second-to-last card), they
+gain the right to call ONU<sup><a id="ftn-1-ref" href="#ftn-1">[1]</a></sup>.
+Upon calling ONU<sup><a id="ftn-2-ref" href="#ftn-2">[2]</a></sup>, a player
+loses the right to call ONU<sup><a id="ftn-3-ref" href="#ftn-3">[3]</a></sup>
+until they again play their second-to-last card.  If, while in possession of the
+right to call ONU<sup><a id="ftn-4-ref" href="#ftn-4">[4]</a></sup>, a player
+declines to call ONU<sup><a id="ftn-5-ref" href="#ftn-5">[5]</a></sup> before
+their turn ends, other players gain the right to Call Out, targeting the
+offending player.  The right to Call Out is lost if the targeted player calls
+ONU<sup><a id="ftn-6-ref" href="#ftn-6">[6]</a></sup>, or if the targeted player
+regains the right to call ONU by playing their second-to-last card.  When a
+player chooses to use their right to Call Out, all players who have Call Out
+rights which target the targeted player lose those Call Out rights, and the
+targeted player loses ONU<sup><a id="ftn-7-ref" href="#ftn-7">[7]</a></sup>
+rights.  The targeted player must also draw two cards.
+</p>
+
+<h2>
+    Card Types
+</h2>
+<p>
+Wild Cards do not have a number value associated with them, and as such do not
+match with any other card by number.  If a player has a Wild Card in their hand
+at the beginning of their turn, they may play it regardless of whether it
+matches the card on the top of the discard pile.  Upon playing a Wild Card, a
+player must assign a color value to it.
+</p><p>
+Skip Cards do not have a number value associated with them, and as such do not
+match with any other card by number.  When a player plays a Skip Card, the turn
+of the next player in the Order of Play is skipped.
+</p><p>
+Reverse Cards do not have a number value associated with them, and as such do
+not match with any other card by number.  When a player plays a Reverse Card,
+the Order of Play is reversed.  
+</p><p>
+Draw Cards do not have a number value associated with them, and as such do not
+match with any other card by number.  When a player plays a Draw Card (a +2 or
++4 card), it creates an active Stack, using that card as the Top of the Stack,
+and that Drawing Action Card's value as the Sum of the Stack.  If there is an
+active Stack in play, then on their turn a player must add to the Stack.  To add
+to the Stack, a player must play a Drawing Action Card with a value greater than
+or equal to the value of the Drawing Action Card on the Top of the Stack.  This
+Drawing Action Card is now the new Top of the Stack, and its value is added to
+the Sum of the Stack.  If a player is unable to add to the Stack, the player
+must draw the number of cards that is the Sum of the Stack, and the Stack is
+deactivated.
+</p>
+
+
+<h2>
+    Footnotes
+</h2>
+<p id="ftn-1">
+    <sup>
+        <a id="ftn-1" href="#ftn-1-ref">[1]</a>
+        <a id="ftn-2" href="#ftn-2-ref">[2]</a>
+        <a id="ftn-3" href="#ftn-3-ref">[3]</a>
+        <a id="ftn-4" href="#ftn-4-ref">[4]</a>
+        <a id="ftn-5" href="#ftn-5-ref">[5]</a>
+        <a id="ftn-6" href="#ftn-6-ref">[6]</a>
+        <a id="ftn-7" href="#ftn-7-ref">[7]</a>
+        "ONU" is a typo of the English word "one", and therefore is not in any
+        way an infringement upon the copyright held by Mattel, Inc on the game
+        "UNO".
+    </sup>
+</p>
+
+</body>
+</html>
