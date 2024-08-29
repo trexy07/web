@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+<head>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script> 
+   <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script> -->
+
+  <script src="brython/brython.min.js"></script>
+
+  <script src="brython/brython_modules.js"></script>
+    
+  <!-- <script src="brython/web_brython_stdlib.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>  -->
+  <style>
+
+/* @import url('https://fonts.googleapis.com/css2?family=  name of font     &display=swap'); */ 
+    
+   /* @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Delicious+Handrawn&family=Lobster&family=Nosifer&family=Black+Ops+One&family=Orbitron&family=Pacifico&family=Pixelify+Sans&family=Ubuntu+Mono&display=swap'); 
+      
+
+      @font-face {
+    font-family: 'us angel'; 
+    src: url('font/usangel.ttf') format('truetype'); 
+  }
+      @font-face {
+    font-family: 'candy script'; 
+    src: url('font/Candy Script.ttf') format('truetype'); 
+  }
+      @font-face {
+    font-family: 'cocacola'; 
+    src: url('font/lokicola.ttf') format('truetype'); 
+  }
+    @font-face {
+    font-family: 'cod'; 
+    src: url('font/Call of Ops Duty.otf') format('opentype'); 
+  } */
+/* extra fonts for fun ^,   font 4 stdout & stderr \/ */
+ @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+    /* @font-face {
+      font-family: 'Ubuntu Mono';
+      src: url('font/ubuntu mono.woff2') format('woff2');
+    } */
+    @font-face {
+      font-family: 'Cabin';
+        /* font-style:bold;
+        font-weight: bold; */
+      src: url('font/Cabin-Medium.ttf') format('truetype');
+    }  
+      @font-face {
+      font-family: 'CabinI';
+        /* font-style:bold;
+        font-weight: bold; */
+      src: url('font/Cabin-BoldItalic.ttf') format('truetype');
+    }  
+      body{
+          font:cabin;
+      }
+  </style>
+  
+  <!-- <link rel='stylesheet' href='../css.css'> -->
+  <title>cmu2!</title>
+
+  <!-- <link rel="stylesheet" href="docio.css">
+ -->
+  <link rel="stylesheet" href="onu.css">
+
+</head>
+
+<body onload="brython()">
+    
+    <div class="topnav">
+      <a href="../index.php">Home</a>
+      <a href="../2nd.php">Jokes</a>
+      <a href="../cheems.html">Cheems.gif</a>
+      <a href="../place.php">pi/place</a>
+      <a href="../whou.php">where are you?</a>
+      <a class="active"   href="../games"  >ONU</a>
+    
+    </div>  
+<!--     <h3> down 4 maintainence ~ 3 days</h3> -->
+    <!-- <p style='font-family:cabin;'>ONU</p> -->
+<div style="display: flex; margin: 1em 1em 0; justify-content:center;">
+    <canvas id="myCanvas" width="100" height="100" style='aspect-ratio: 1 / 1; height:min(100vh, 100vw);' ></canvas>
+</div>  
+<script>
+    const c = document.getElementById("myCanvas");
+    const ctx = c.getContext("2d");
+    ctx.fillStyle = "#92B901";
+    ctx.fillRect(50, 50, 100, 100);
+
+
+    c.height = Math.min(window.innerWidth,window.innerHeight);
+    c.width = Math.min(window.innerWidth,window.innerHeight);
+</script>
+    --> 
+    <!--default 400x400-->
+
+<!-- <div style="display: flex; margin: 1em 1em 0; justify-content:center;">
+    <canvas id="myCanvas" width="800" height="800" style='aspect-ratio: 1 / 1; height:min(100vh, 100vw);' ></canvas>
+</div>  -->
+    
+<!-- <div style="display: flex; margin: 1em 1em 0; justify-content:center;">
+</div> -->
+
+<!-- <div id='funDiv' style="display: flex; margin: 1em 1em 0; justify-content:center;">
+</div> -->
+
+<!-- <div>
+    <canvas id="myCanvas"  style="width:100vw; height:100vw;" ></canvas> 
+</div> -->
+
+<!-- <script> fuller screen canvas
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // const div=document.getElement('funDiv');
+    
+    const canvas=document.createElement('canvas');
+    canvas.width=vw;
+    canvas.height=vh;
+
+    canvas.style.width='100%';
+    canvas.style.height='100%';
+    // canvas.style="display: flex; margin: 1em 1em 0; justify-content:center;";
+    // canvas.style.margin="auto auto";
+    
+    // canvas.left='50%';
+
+    
+    canvas.id='myCanvas';
+    document.body.appendChild(canvas);
+</script> -->
+
+
+
+    
+    
+<section id="docio_container" class="docio_container" hidden=true>
+  <div id="docio_stdout_container">
+    <details class="docio_output">
+      <summary>
+        stdout
+      </summary>
+      <div id="docio_stdout_stream"><br></div>
+    </details>
+  </div>
+  <div id="docio_stderr_container">
+    <details class="docio_output">
+      <summary>
+        stderr
+      </summary>
+      <div id="docio_stderr_stream"><br></div>
+    </details>
+  </div>
+</section>
+
+
+<!--
+<script type="text/python" src="uno.py"></script>
+--->
+<!-- # this thing here is a test, ignore it =>
+<audio controls>
+  <source src="https://trevinspi.freeddns.org/games/media/t_back.mp3" type="audio/mpeg"> 
+  Your browser does not support the audio element.
+</audio> -->
+    
+<script type="text/python" >
+
+# import debugin
+# import math as pack
+# print(dir(pack))
+# for val in dir(pack):
+#     print(val,eval(f"pack.{val}"))
+
+try:
+    from newbase import docio
+    docio.enable()
+except Exception as e:
+    from base import print2
+    print2("docio go brr")
+    print2(e)
+    
+# print(e)
+# from base import *
+# print2(e)
+
+#from base import print2, playDsdfb()
+
+#try:
+#if True:
+with open("onu_chunk.py", "r") as uno:
+    code = uno.read()
+exec(code)
+
+#except Exception as e:
+    #try:
+#    raise(e)
+    #except:
+    #    from base import print2
+    #    print2("defaulted to print2",e)
+ #   print(dir(e))
+  #  raise(e)
+
+
+</script>
+
+    
+    
+    
+    
+<!-- <p id ="zone1"style="font-size:0px">None </p> -->
+
+
+</body>
+
+</html>
+
+
+
+
+
+
