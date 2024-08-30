@@ -261,9 +261,10 @@ function update() {
                 // secs #2 needs to be the last time
                 document.getElementById(step).style.width = (first+secs)/(4_534_200)*100-.8+"%"; 
                 //24908700 is total seconds in the school year //3_970_000
-                if (mode===1){console.log(mode,step,(first+secs)/(4_534_200)*100+"%")}
+                // if (mode===1){
+                //     console.log(mode,step,(first+secs)/(4_534_200)*100+"%")
+                // }
             }
-            
         }
     }    
 }
@@ -344,6 +345,7 @@ function unitP(abs, step){
     
     return output;
 } 
+const timer = document.getElementById("timer")
 
 // summer, fall, winter, spring, and summer change depending on before/after
 for (let step = 0; step < 5; step++) {
@@ -356,29 +358,31 @@ for (let step = 0; step < 5; step++) {
     }
     var style = "";
     if (pc) {
-        style = ' style = "flex: 1 1 10%; margin: .2vw;"';
+        style = ' style = "flex: 1 1 10%; margin: .2vw; justify-content: space-around;" ';
     }
 
     // document.getElementById(names[step]).style.width = (step/5 )* 100 + "%";
     // document.getElementById(names[step]).style.width = step/4*100+"%";
 
     
-    document.getElementById("timer").innerHTML += `
+    // document.getElementById("timer").innerHTML += `
+    timer.innerHTML += `
+
     <details class="docio_output" id="base${step}" open${style}>
         <summary>
         Time ${label} Break
         </summary>
-        <div id="abs${step}" style="display: inline-block;">
+        <div id="abs${step}" style="display:revert;" >
             <h3>Absolute Time</h3>
             ${unitP("abs",step)}
         </div>
-        <div id="in${step}" style="display: inline-block;">
+        <div id="in${step}"   style="display:revert;">
             <h3>In School Time</h3>
             ${unitP("in",step)}
         </div>
     </details>
     `;
-
+///style="display: inline-block;"
 // <p id="abs${step}formated">it's bwokin ;(</p>>)
 //             <p id="abs${step}seconds">it's bwokin ;(</p>)
 //             <p id="abs${step}minutes">it's bwokin ;(</p>)
@@ -388,8 +392,10 @@ for (let step = 0; step < 5; step++) {
 } 
 
 if (pc) {
-    document.getElementById("timer").style.display = "flex";
-    document.getElementById("timer").style.flexWrap = "wrap";
+    // document.getElementById("timer").style.display = "flex";
+    // document.getElementById("timer").style.flexWrap = "wrap";    
+    timer.style.display = "flex";
+    timer.style.flexWrap = "wrap";
     //display: flex;
     //flex-wrap: wrap;
 }
@@ -399,5 +405,60 @@ if (pc) {
 // 33 milliseconds -> 30 frames per sec 
 // or 16.6 mili -> 60 fps 
 // or 13.3 mili -> 75 fps
-update();
+
+const contextMenu = document.getElementById('contextMenu');
+const checklist = document.getElementById('checks');
+
+document.body.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    contextMenu.style.display = 'block';
+    contextMenu.style.left = `${e.pageX}px`;
+    contextMenu.style.top = `${e.pageY}px`;
+
+    for ( let i=0; i<5;i++){
+
+        // console.log(i,checklist.children[i],timer.children[i],timer.children[i].open)
+        // console.dir(checklist.children[i].firstElementChild.firstElementChild)
+        // console.log(checklist.children[i].firstElementChild.firstElementChild.checked)
+        checklist.children[i].firstElementChild.firstElementChild.checked = timer.children[i].open;
+        // checklist.children[i].firstElementChild.firstElementChild.checked = false;
+    }
+
+
     
+}); // show
+
+document.addEventListener('click', function () {
+    contextMenu.style.display = 'none';
+}); // hide
+
+
+checklist.addEventListener('click', function (e) {
+            
+    const checkbox = e.target;
+    const column = checkbox.getAttribute('data-column');
+    const isChecked = checkbox.checked;
+    console.log(column);
+    if (column === null){
+      return 0;
+    }
+    // console.log(timer.children);
+    // console.log(timer.children[column]);
+    // console.dir(timer.children[column]);  
+    
+    timer.children[column].open = !timer.children[column].open;
+    // timer.children[column].removeAttribute('open');
+    
+    // const headers = table.querySelectorAll(`thead th:nth-child(${parseInt(column)+1})`);
+    // const cells   = table.querySelectorAll(`tbody td:nth-child(${parseInt(column)+1})`);
+
+    // headers.forEach(header => {header.style.display=isChecked ? '':'none'});
+    // cells.forEach(cell => {cell.style.display=isChecked ? '':'none'});
+});
+
+        
+
+update();
+
+
+

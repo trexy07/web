@@ -11,7 +11,7 @@
       <a href="cheems.html">Cheems.gif</a>
       <a href="place.php">pi/place</a>
       <a href="whou.php">Where are you?</a>
-      <a href="games"  >ONU</a>
+      <a href="games/onu/index.html"  >ONU</a>
       <a href="timer.html">CountDown</a>
     
     </div>
