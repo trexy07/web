@@ -10,8 +10,9 @@
       <a href="2nd.php">Jokes</a>
       <a href="cheems.html">Cheems.gif</a>
       <a href="place.php">pi/place</a>
-      <a class="active" href="whou.php">where are you?</a>
-      <a href="games">games</a>
+      <a class="active" href="whou.php">Where are you?</a>
+      <a href="games"  >ONU</a>
+      <a href="timer.html">CountDown</a>
     </div>
 
   </head>
@@ -53,8 +54,13 @@ else {
 }
 fwrite($myfile, ', '); 
 
-fwrite($myfile, $ip); 
-fwrite($myfile, ", "); 
+// fwrite($myfile, $ip); 
+// fwrite($myfile, ", "); 
+
+    fwrite($myfile, $ip); 
+    fwrite($myfile, ":"); 
+    fwrite($myfile, $_SERVER['REMOTE_PORT']); 
+    
 
 fwrite($myfile, date(DATE_RFC2822));
 fwrite($myfile, ", "); 

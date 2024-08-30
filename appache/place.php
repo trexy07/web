@@ -17,8 +17,9 @@ echo $fill;
       <a href="2nd.php">Jokes</a>
       <a href="cheems.html">Cheems.gif</a>
       <a class="active" href="place.php">pi/place</a>
-      <a href="whou.php">where are you?</a>
-      <a href="games">games</a>
+      <a href="whou.php">Where are you?</a>
+      <a href="games"  >ONU</a>
+      <a href="timer.html">CountDown</a>
     </div>
 	<style>
 		.container {
@@ -127,9 +128,8 @@ echo $fill;
   <body>
 	<h1>The place of pixels</h1>
     <p>
-		click on any pixel,
-		change the color,
-		and hit submit
+		Select a color from the top, then hit a pixel to color it.
+        
 	</p>
 	<div class="container">
 		<input type="color" id="colorPicker" style="display: inline-block;;margin-bottom: 10px;margin-right: 5px;" value="#ffffff">
@@ -253,12 +253,14 @@ if (!$conn) {
 
     // Display the pixel grid
     for ($y = 0; $y < 20; $y++) {
+        echo '<div style="line-height: 0;">';
         for ($x = 0; $x < 20; $x++) {
             $color = $grid[$y][$x];
             //echo "<div id='$x,$y' class='pixel' style='background-color: $color;' onclick='editPixel($x, $y)'></div>";
             echo "<div id='$x,$y' class='pixel' style='background-color: $color; border: 2px solid $color;' onmousedown='editPixel($x, $y);' onmouseover='document.getElementById(\"$x,$y\").style.border=\"2px solid gray\"' onmouseout= ' document.getElementById(\"$x,$y\").style.border=\"2px solid $color\" ' ></div>";
         }
-        echo '<br>';
+        // echo '<br>';
+        echo '</div>';
     }
 ?>
 

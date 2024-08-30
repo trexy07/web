@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta name="description" content="A timer to count down school">
+  <meta charset="UTF-8">
+  <head>
+    <link rel='stylesheet' href='css.css'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+        
+        .docio_container {
+            flex-shrink: 1;
+            flex-grow: 1;
+            font-family: Ubuntu Mono;
+
+            /* display: flex;
+            flex-wrap: wrap; */ /* also makes it wrap sideways*/
+            /* flex-direction: column; */
+        }
+        
+        
+        .docio_output {
+            /* margin: .5em 1em 0; */
+            /* &:first-of-type {
+                margin-top: 1em;
+            }
+            &:last-of-type {
+                margin-bottom: 1em; */
+            /* } */
+            /* flex: 1 1 20%; 
+            margin: 10px; /* causes horozontal wraping */
+
+            background-color: #303030;
+            
+            text-wrap: pretty;
+            
+            border: .2em solid #c51a4a;
+            &[open] {
+                & summary {
+                    border: .2em solid #6cc04a;
+                }
+            }
+        
+            & summary {
+                position: relative;
+                cursor: pointer;
+                padding: .5em .5em;
+                text-align: center;
+                &:hover {
+                    background-color: #484848;
+                }
+            }
+        
+            & div {
+                /* white-space: pre-wrap; */
+                word-break: break-all;
+                padding: 0em 1em 1em;
+                /* font-size: .82em; */
+                font-size: 1.35vmax;
+                text-align:left;
+            }
+            & p {
+                margin: 0em;
+                /* display: flex; */
+                margin-block: 0em;
+                text-wrap: pretty;
+                /* word-break: keep-all; */
+                /* white-space:nowrap; */
+            }
+        }
+        #myProgress {
+          width: 100%;
+          background-color: #303030;
+          
+          height: 2vmax;
+          margin-top: auto;
+          border: .2em solid #c51a4a;
+
+            font-family: Ubuntu Mono;
+        }
+        
+        .myBar {
+          width: 1%;
+          height: 2vmax;
+          /* background-color: green; */
+            position: absolute;
+          font-size:1.4vmax;
+            text-align: right;
+        }
+        .barMarker{
+            align: left; 
+            vertical-align: sub;
+        }
+    </style>
+
+      
+    <title>Timer!</title>
+    <div class="topnav">
+      <a href="index.php">Home</a>
+      <a href="2nd.php">Jokes</a>
+      <a href="cheems.html">Cheems.gif</a>
+      <a href="place.php">pi/place</a>
+      <a href="whou.php">Where are you?</a>
+      <a href="games"  >ONU</a>
+      <a class="active" href="../timer.html">CountDown</a>
+    
+    </div>
+  </head>
+  <body>
+    
+        <div align='middle' style="height: 90vh;">
+            <h id="header">Timer!</h1>
+            <!-- <section id="timer" class="docio_container"></section> -->
+            <section id="timer" class="docio_container">
+            </section>
+            
+            <div id="myProgress">
+              <div id="myBar" class="myBar" style="background-color: green;text-align: left;"> 
+                  <b id="percent" style="text-align: left; vertical-align: sub;">idk%</b>
+              </div>
+              <div id="1" class="myBar" > 
+                  <b class="barMarker">autumn|</b>
+              </div>
+              <div id="2" class="myBar"> 
+                  <b class="barMarker">winter|</b>
+              </div>
+              <div id="3" class="myBar"> 
+                  <b class="barMarker">spring|</b>
+              </div>
+              <div id="4" class="myBar" > 
+                  <b class="barMarker">summer|</b>
+              </div>
+            </div>
+        </div>
+      
+        <div style="position: absolute; bottom: -100%;"><input type="range" min="0" max="100" value="16" id="timing" > <- changes how fast it updates </div>
+        
+        <script src="/timer.js">
+        </script>
+      
+        <dir style="position: absolute; bottom: -100%; font-size:1.35vmax;"> 
+            <p id="1">[1] Here is my first footnote.</p>
+            <p id="2">[2] Another footnote.</p>
+        </dir>
+
+    </body>
+</html>
+<!--
+
+import datetime 
+import time
+
+app.background='black'
+
+#### add progress bar of the quarter/ whole year
+###
+
+# today=datetime.datetime(
+#     time.localtime().tm_year,
+#     time.localtime().tm_mon,
+#     time.localtime().tm_mday
+#     )
+# print(today)
+
+holidays=[
+    datetime.date(2024,5,29), # "spring holidy" / good friday  - check the school calender
+    datetime.date(2024,4,8), # solar eclipse day
+    ]
+halfs=[
+    datetime.date(2024,5,i) for i in range(20 ,23+1)
+    
+    ]
+def half(date):
+    return int(date.strftime("%w"))==5 or date in halfs
+    
+    
+
+
+today=datetime.date.today()
+start=datetime.date(2024,3,18)
+end=datetime.date(2024,5,23)
+
+delta=datetime.timedelta()
+
+a_day=False
+a_days=0
+b_days=0
+
+def new_full():
+    global delta,   a_day, a_days, b_days
+    _a_day=not a_day
+    delta=datetime.timedelta()
+    for day in range((end-start).days ):   #+1):
+        date=start+datetime.timedelta(days=day)
+        
+        
+        
+        formated=date.strftime("%w%a %Y-%m-%d")
+        wday=int(date.strftime("%w"))
+        # print(formated)
+        if date <  today:
+            continue
+        elif date in holidays:
+            continue
+        print(date)
+        
+        if half(date):
+            delta+=datetime.timedelta(hours=4,minutes=25)
+            if _a_day:
+                a_days+=1
+            else:
+                b_days+=1
+            _a_day= not _a_day
+        elif wday in (1,2,3,4):#m-t
+            # print(date.strftime("%a"))
+            delta+=datetime.timedelta(hours=7,minutes=40)
+            if _a_day:
+                a_days+=1
+            else:
+                b_days+=1
+            _a_day= not _a_day
+        # elif wday==5:#f
+        #     # print(date.strftime("%a"))
+        #     delta+=datetime.timedelta(hours=4,minutes=25)
+        #     if _a_day:
+        #         a_days+=1
+        #     else:
+        #         b_days+=1
+        #     _a_day= not _a_day
+        # # print(week_day,date)
+    
+    print("full:",delta)#.total_seconds()/3600
+    
+new_full()
+
+# print(datetime.datetime.now())
+# print(datetime)
+# print(*time.gmtime(time.time()))
+
+
+
+# Label('Time left at/in school:',200,30,size=20,fill='white')# "learning" - in quotes
+Label('how long we are AT school until summer:',200,30,size=20,fill='white')# "learning" - in quotes
+# Label('Time we\'re at school "learning":',200,30,size=20,fill='white')# "learning" - in quotes
+# Label('How long do we have to "learn" until summer:',200,30,size=20,fill='white')# "learning" - in quotes
+
+# -35 min lunch period
+# - passing period 
+# so > time in class
+timer=Label("",12,60,size=40,fill='white')
+subsec=Label("",388,60,size=20,font='monospace',fill='white')
+timers=Group(timer,subsec)
+
+Label("or...",200,100,size=20,fill='white')
+shreks=Label("_ shrek movies",200,120,size=15,fill='white')
+blueys=Label("_ bluey episodes",200,135,size=15,fill='white')
+football=Label("_ football fields usain bolt could run across",200,150,size=15,fill='white')
+
+hms=Label("_ hours, _ minutes, or _ seconds",200,165,size=15,fill='white')
+
+
+bells=Label("_ a-days _ b-days",200,180,size=15,fill='white')
+
+# times in x class - need to determine a/b day
+
+Label("Time untill summer break starts:",200,230,size=20,fill='white')
+timer2=Label("",12,260,size=40,fill='white')
+subsec2=Label("",388,260,size=20,font='monospace',fill='white')
+timers2=Group(timer2,subsec2)
+Label("(24-hour days)",90,90,fill='white',size=12)
+
+Label("or...",200,300,size=20,fill='white')
+shreks2=Label("_ shrek movies",200,320,size=15,fill='white')
+blueys2=Label("_ bluey episodes",200,335,size=15,fill='white')
+football2=Label("_ football fields usain bolt could run across",200,350,size=15,fill='white')
+
+hms2=Label("_ hours, _ minutes, or _ seconds",200,365,size=15,fill='white')
+
+
+
+# times usain bolt could run across a footbal feild
+
+# timers=Group(timer,subsec)
+
+def onStep():
+    
+    ###calculate time used today
+    #now=time.gmtime(time.time())
+    now=time.localtime()
+    # print(time.time(),int(time.time()%1*10_000_000))
+
+    now=datetime.time(
+        now.tm_hour,
+        now.tm_min,
+        now.tm_sec,
+        int(time.time()%1*1_000_000)
+        )
+    # print(now)
+    
+    today_now=datetime.datetime.combine(today,now)
+    # print(today_now)
+    sub_delta=datetime.timedelta()
+    
+    _a_days=a_days
+    _b_days=b_days
+    
+    if today in holidays:
+        pass
+    elif half(today):
+        #print("half")
+        if today_now >= datetime.datetime.combine(today,datetime.time(8,20,0,0)):
+            #print('half',datetime.datetime.combine(today,datetime.time(12,45,0,0))-today_now)
+            sub_delta=max(datetime.datetime.combine(today,datetime.time(12,45,0,0))-today_now,datetime.timedelta())
+        elif today_now < datetime.datetime.combine(today,datetime.time(8,20,0,0)):
+           #print("before start")
+           sub_delta=datetime.timedelta(hours=4,minutes=25)
+        else:
+            pass
+            #print("now is after today at 8:20")
+    elif int(today.strftime("%w")) in  (1,2,3,4):#m-f
+        # datetime.timedelta(hours=7,minutes=40)
+        # print(
+        #     today_now,
+        #     datetime.datetime.combine(today, datetime.time(15,55) ),
+        #     'delta',
+        #     datetime.datetime.combine(today,datetime.time(15,55))-today_now
+        #     )
+        if today_now >= datetime.datetime.combine(today,datetime.time(8,15,0,0)):
+            sub_delta=max(datetime.datetime.combine(today,datetime.time(15,55,0,0))-today_now,datetime.timedelta())
+        pass
+    #print(sub_delta)
+    # elif int(today.strftime("%w"))==5:#m-f
+    #     if today_now >= datetime.datetime.combine(today,datetime.time(8,20,0,0)):
+
+    #         sub_delta=max(datetime.datetime.combine(today,datetime.time(12,45,0,0))-today_now,datetime.timedelta())
+
+    #     pass
+    
+    
+    sub_delta+=datetime.timedelta(microseconds=1)
+    if sub_delta>=datetime.timedelta(seconds=1):
+        if a_day:
+            _a_days+=1
+        else:
+            _b_days+=1
+    
+    # print("delta",sub_delta)
+    
+    
+    
+    ###output
+    #print(f"time left: {delta+sub_delta} {(delta+sub_delta).microseconds}")
+    total=delta+sub_delta
+    
+    stotal=str(total)
+    #stotal=total.strftime("%d days, %I:%M:%s.%f")
+    #if stotal[-15]==' ':
+    if False:
+        stotal= stotal[:-14]+"0" +stotal[-14:]
+        # print(1111111)
+        
+    x=subsec.right
+    
+    if timer.value!=stotal[:-6]:
+        timer.value=stotal[:-6]# could try -7 instead of -6 on both
+    subsec.value=stotal[-6:-1]
+    
+    subsec.right=x
+    
+    # subsec.left=timer.right+4
+    subsec.bottom=timer.bottom
+    # timers.centerX=200
+    # timers.left=12
+    # timer.left=10
+    timer.right=331
+    # subsec.right=390
+    
+    total=total.total_seconds()
+    shreks.value=f"{total/60//9/10} shrek movies,"
+    
+    val='{:,}'.format(total/60//.7/10)
+    blueys.value=f"{    val  } bluey episodes,"
+    
+    # 91.44 m
+    # 10.44 m/s speed
+    val='{:,}'.format(total*10.44//9.144/10)
+    football.value=f"{val} football fields usain bolt could run across,"
+    
+    h,m,s='{:,}'.format(total//360/10),'{:,}'.format(total//6/10),'{:,}'.format(total*10//1/10)
+    hms.value=f"{h} hours, {m} minutes, or {s} seconds"
+    
+    
+    bells.value=f"{_a_days } a-days & {_b_days } b-days"
+
+    
+    ### output 2
+    total2=datetime.datetime(2024,5,23,12,45)-today_now#- datetime.timedelta(days=26)
+    
+    # print(total2)
+    stotal2=str(total2)
+    
+    if len(stotal2)>=15 and stotal2[-15]==' ':
+    # if False:
+        stotal2= stotal2[:-14]+"0" +stotal2[-14:]
+        # print(1111111)
+    #print(stotal2[0])
+    if stotal2[0]=='-':
+        stotal2= stotal2[:-15]+"+" +stotal2[-15:]
+    
+    
+    
+    x=subsec2.right
+    
+    if timer2.value!=stotal2[:-6]:
+        timer2.value=stotal2[:-6]# could try -7 instead of -6 on both
+    subsec2.value=stotal2[-6:-1]
+    
+    subsec2.right=x
+    
+    # subsec2.left=timer2.right+4
+    subsec2.bottom=timer2.bottom
+    # timers.centerX=200
+    # timers2.left=12
+    # timer2.left=10
+    timer2.right=331
+    # subsec2.right=390
+    
+    total2=total2.total_seconds()
+    
+    val='{:,}'.format(total2/60//9/10)
+    shreks2.value=f"{val} shrek movies,"
+    
+    val='{:,}'.format(total2/60//.7/10)
+    blueys2.value=f"{val} bluey episodes,"
+    
+    val='{:,}'.format(total2*10.44//9.144/10)
+    football2.value=f"{val} football fields usain bolt could run across,"
+    
+    h,m,s='{:,}'.format(total2//360/10),'{:,}'.format(total2//6/10),'{:,}'.format(total2*10//1/10)
+    hms2.value=f"{h} hours, {m} minutes, or {s} seconds"
+    
+    
+onStep()
+# timers.centerX=200
+# timers2.centerX=200
+
+subsec.left=timer.right+4
+subsec2.left=timer2.right+4
+# time.structime()
+
+# app.stepsPerSecond=1
+app.stepsPerSecond=18
+
+
+
+
+
+
+
+
+-->
