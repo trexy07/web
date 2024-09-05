@@ -13,8 +13,8 @@ echo $fill;
       <link rel='stylesheet' href='css.css'>
     <title>The Pi/Place</title>
     <div class="topnav">
-      <a href="index.php">Home</a>
-      <a href="2nd.php">Jokes</a>
+      <a href="index.html">Home</a>
+      <a href="2nd.html">Jokes</a>
       <a href="cheems.html">Cheems.gif</a>
       <a class="active" href="place.php">pi/place</a>
       <a href="whou.php">Where are you?</a>

@@ -6,8 +6,8 @@
       <link rel='stylesheet' href='css.css'>
     <title>where are you?</title>
     <div class="topnav">
-      <a href="index.php">Home</a>
-      <a href="2nd.php">Jokes</a>
+      <a href="index.html">Home</a>
+      <a href="2nd.html">Jokes</a>
       <a href="cheems.html">Cheems.gif</a>
       <a href="place.php">pi/place</a>
       <a class="active" href="whou.php">Where are you?</a>

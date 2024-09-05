@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta name="description" content="A page of dad jokes">
+  <meta charset="UTF-8">
+  <head>
+    <link rel='stylesheet' href='css.css'>
+    <title>joke page</title>
+    <div class="topnav">
+      <a href="index.html">Home</a>
+      <a class="active" href="2nd.html">Jokes</a>
+      <a href="cheems.html">Cheems.gif</a>
+      <a href="place.php">pi/place</a>
+      <a href="whou.php">Where are you?</a>
+      <a href="games/onu/index.html"  >ONU</a>
+      <a href="timer.html">CountDown</a>
+    </div>
+  </head>
+  <body>
+    <h1>This is a test to make a second page of dad jokes</h1>
+    <div id="jokes"></div>
+    <script>
+      async function fetchJokes() {
+        // Fetch random joke
+        const randomJokeResponse = await fetch('https://official-joke-api.appspot.com/random_joke');
+        const randomJoke = await randomJokeResponse.json();
+        document.getElementById('jokes').innerHTML += `${randomJoke.setup}<br>${randomJoke.punchline}<br><br>`;
+
+        // Fetch dad joke
+        const dadJokeResponse = await fetch('https://icanhazdadjoke.com', {
+          headers: {
+            'Accept': 'text/plain'
+          }
+        });
+        const dadJoke = await dadJokeResponse.text();
+        document.getElementById('jokes').innerHTML += `${dadJoke}<br><br>`;
+
+        // Fetch sv443 jokeAPI
+        const sv443JokeResponse = await fetch('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&format=txt');
+        const sv443Joke = await sv443JokeResponse.text();
+        document.getElementById('jokes').innerHTML += sv443Joke;
+      }
+
+      fetchJokes();
+    </script>
+  </body>
+</html>
