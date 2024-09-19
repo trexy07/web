@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="play video file">
+  <link rel="stylesheet" href="css.css">
+  <title>Movie!</title>
+</head>
+<body>
+  <div style="text-align: center;">
+    <h1>Movie!</h1>
+
+    <video width="800" height="600" controls>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          var fileName = prompt("file name:");
+          if (fileName) {
+            var videoSource = document.createElement("source");
+            videoSource.src = "./videos/" + fileName;
+            videoSource.type = "video/mp4";
+            document.querySelector("video").appendChild(videoSource);
+          } else {
+            alert("No file name provided. Video cannot be loaded.");
+          }
+        });
+      </script>
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</body>
+</html>
