@@ -17,7 +17,7 @@ echo $fill;
       <a href="2nd.html">Jokes</a>
       <a href="cheems.html">Cheems.gif</a>
       <a class="active" href="place.php">pi/place</a>
-      <a href="whou.php">Where are you?</a>
+      <a href="whou.html">Where are you?</a>
       <a href="games/onu/index.html"  >ONU</a>
       <a href="timer.html">CountDown</a>
     </div>

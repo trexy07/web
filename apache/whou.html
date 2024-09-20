@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta name="description" content="Visit to find where you're visiting from" />
+    <meta charset="UTF-8" />
+
+    <head>
+        <link rel="stylesheet" href="css.css" />
+        <title>where are you?</title>
+        <div class="topnav">
+            <a href="index.html">Home</a>
+            <a href="2nd.html">Jokes</a>
+            <a href="cheems.html">Cheems.gif</a>
+            <a href="place.php">pi/place</a>
+            <a class="active" href="whou.php">Where are you?</a>
+            <a href="games/onu/index.html">ONU</a>
+            <a href="timer.html">CountDown</a>
+        </div>
+    </head>
+
+    <body>
+        <h1>Hello, I know your ip!</h1>
+        <p id="ans"></p>
+        <script>
+            async function fetchLocation() {
+                const response = await fetch(window.location.origin + "/api/iplog");
+                const data = await response.text();
+                document.getElementById("ans").innerHTML = data;
+            }
+
+            fetchLocation();
+        </script>
+        <p>This likely won't work if you're on cellular</p>
+    </body>
+</html>
