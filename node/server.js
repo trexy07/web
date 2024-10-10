@@ -14,36 +14,33 @@ const axios = require('axios');
 var mysql = require('mysql2');
 
 // images
-
+// docker makes this break, because the db isn't ready in time
 var con = mysql.createConnection({
   host: "mysql_db",
   user: "root",
   password: "rootpassword",
-  database: "images" // Ensure you specify the database name
+  database: "mydatabase" // specify the database name
 });
 
 con.connect(function(err) {
   if (err) throw err;
-
   console.log("Connected!");
 });
-app.get("/images", (req, res, next) => {
-    console.log("images");
-    const sql = "SELECT * FROM images";
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Result: " + result);
-        res.send(result);
+// app.get("/images", (req, res, next) => {
+//     console.log("images");
+//     const sql = "SELECT * FROM images";
+//     con.query(sql, function (err, result) {
+//         if (err) throw err;
+//         console.log("Result: " + result);
+//         res.send(result);
 
-    });
-});
-
-
+//     });
+// });
 
 
-app.get("/joke1", (req, res, next) => {
-    res.send("Why did the chicken cross the road?");
-});
+
+
+
 
 
 app.get("/", (req, res, next) => {
@@ -79,13 +76,24 @@ app.get('/iplog', (req, res) => {
             const { city, state_prov, country_name } = response.data;
             const location = `${city}, ${state_prov}, ${country_name}`;
             res.send(`Your IP address is: ${ipAddress}. <br> Your location is: ${location} ${additive}`);
+
+            
             // add row to the db
+            const timestamp = new Date().toISOString().slice(0, 19).replace('T', ' '); // get the date to put it
+            // console.log(ipAddress.replaceAll(".", "")); // test the ip to unsigned int
+
+            const sql = `INSERT INTO ip_logs (ip_address, note, timestamp) VALUES ('${ipAddress.replaceAll(".", "")}', '${location + additive.slice(-5)}', '${timestamp}')`;
+            
+            con.query(sql, function (err, result) {
+                if (err) throw err;
+            });
             
         })
         .catch(error => {
             console.error(error);
             res.status(500).send('Error retrieving geolocation');
         });
+        
 });
 
 
