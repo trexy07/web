@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="description" content="Color the grid for anyone to see">
+    <meta charset="UTF-8">
+    <title>The Pi/Place</title>
+    <link rel='stylesheet' href='css.css'>
+    <div class="topnav">
+        <a href="index.html">Home</a>
+        <a href="2nd.html">Jokes</a>
+        <a href="cheems.html">Cheems.gif</a>
+        <a class="active" href="place.php">pi/place</a>
+        <a href="whou.html">Where are you?</a>
+        <a href="games/onu/index.html"  >ONU</a>
+        <a href="timer.html">CountDown</a>
+      </div>
+    <style>
+        .container {
+            display: flex;
+            align-items: center; /* Center vertically */
+        }
+        .pixel {
+            width: min(5.2vh, 5.2vw);
+            height: min(5.2vh, 5.2vw);
+            display: inline-block;
+            cursor: pointer;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(10, min(5vw, 5vh)); /* Adjusted to 10 columns */
+            grid-template-rows: repeat(10, min(5vw, 5vh)); /* Adjusted to 10 rows */
+            grid-gap: 1px; /* Gap between grid items */
+        }
+        .color-container {
+            display: grid;
+            grid-template-columns: repeat(9, min(5vw, 5vh)); /* Adjusted to 10 columns */
+            grid-template-rows: repeat(2, min(5vw, 5vh)); /* Adjusted to 10 rows */
+            grid-gap: 1px; /* Gap between grid items */
+        }
+        .grid-item {
+            width: min(5vw, 5vh);
+            height: min(5vw, 5vh);
+            background-color: #ccc; /* Default background color */
+            cursor: pointer;
+            border: 1px solid white;
+        }
+        /* Define styles for each button */
+        #blackButton {
+            background-color:Black;
+        }
+
+        #blueButton {
+            background-color: Blue;
+        }
+
+        #limeButton {
+            background-color: Lime;
+        }
+
+        #redButton {
+            background-color:Red ;
+        }
+
+        #whiteButton {
+            background-color: White;
+        }
+
+        #yellowButton {
+            background-color: Yellow;
+        }
+
+        #cyanButton {
+            background-color: Cyan ;
+        }
+
+        #magentaButton {
+            background-color: Magenta;
+        }
+
+        #greenButton {
+            background-color: Green ;
+        }
+
+        #grayButton {
+            background-color: Gray;
+        }
+
+        #silverButton {
+            background-color:Silver;
+        }
+
+        #maroonButton {
+            background-color: Maroon;
+        }
+
+        #purpleButton {
+            background-color: Purple;
+        }
+
+        #orangeButton {
+            background-color:darkOrange;
+        }
+
+        #siennaButton {
+            background-color: sienna;
+        }
+
+        #tealButton {
+            background-color: teal;
+        }
+
+        #brightMaroonButton {
+            background-color: #C51A4A; /* Bright Maroon */
+        }
+
+        #appleButton {
+            background-color: #6CC04A; /* Apple */
+        }
+    </style>
+</head>
+<body>
+    <h1>The place of pixels</h1>
+    <p>Select a color from the top, then hit a pixel to color it.</p>
+    <div class="container">
+        <input type="color" id="colorPicker" style="display: inline-block; margin-bottom: 10px; margin-right: 5px;" value="#ffffff">
+        <button id="submitButton" style="display: none;">
+            <span class="text">Submit</span>
+        </button>
+        <div class="color-container" style="margin-bottom: 5px;" >
+			<!-- Black button -->
+            <div id="blackButton" class="grid-item" onclick="changeColor('#000000')"></div>
+
+            <!-- Blue button -->
+            <div id="blueButton" class="grid-item" onclick="changeColor('#0000FF')"></div>
+
+            <!-- Lime button -->
+            <div id="limeButton" class="grid-item" onclick="changeColor('#00FF00')"></div>
+
+            <!-- Red button -->
+            <div id="redButton" class="grid-item" onclick="changeColor('#FF0000')"></div>
+
+            <!-- White button -->
+            <div id="whiteButton" class="grid-item" onclick="changeColor('#FFFFFF')"></div>
+
+            <!-- Yellow button -->
+            <div id="yellowButton" class="grid-item" onclick="changeColor('#FFFF00')"></div>
+
+            <!-- Cyan button -->
+            <div id="cyanButton" class="grid-item" onclick="changeColor('#00FFFF')"></div>
+
+            <!-- Magenta button -->
+            <div id="magentaButton" class="grid-item" onclick="changeColor('#FF00FF')"></div>
+
+            <!-- Green button -->
+            <div id="greenButton" class="grid-item" onclick="changeColor('#008000')"></div>
+
+            <!-- Gray button -->
+            <div id="grayButton" class="grid-item" onclick="changeColor('#808080')"></div>
+
+            <!-- Silver button -->
+            <div id="silverButton" class="grid-item" onclick="changeColor('#C0C0C0')"></div>
+
+            <!-- Maroon button -->
+            <div id="maroonButton" class="grid-item" onclick="changeColor('#800000')"></div>
+
+            <!-- Purple button -->
+            <div id="purpleButton" class="grid-item" onclick="changeColor('#800080')"></div>
+
+            <!-- Orange button -->
+            <div id="orangeButton" class="grid-item" onclick="changeColor('#FF8C00')"></div>
+
+            <!-- Sienna button -->
+            <div id="siennaButton" class="grid-item" onclick="changeColor('#A0522D')"></div>
+
+            <!-- Teal button -->
+            <div id="tealButton" class="grid-item" onclick="changeColor('#008080')"></div>
+
+            <!-- Bright Maroon button -->
+            <div id="brightMaroonButton" class="grid-item" onclick="changeColor('#C51A4A')"></div>
+			
+			<!-- Apple button -->
+            <div id="appleButton" class="grid-item" onclick="changeColor('#6CC04A')"></div>
+
+		</div>
+    </div>
+    <div class="grid-container" id="gridContainer"></div>
+
+    <script>
+        function print(text) {
+            const p = document.createElement('p');
+            p.textContent = text;
+            document.body.appendChild(p);
+        }
+        function changeColor(newColor){
+                // print(newColor);
+                document.getElementById('colorPicker').value=newColor;
+            }
+            
+        document.addEventListener('DOMContentLoaded', function () {
+            const submitButton = document.getElementById('submitButton');
+            const colorPicker = document.getElementById('colorPicker');
+            const gridContainer = document.getElementById('gridContainer');
+            let selectedPixel = null;
+            
+            function deez(response){
+                console.log(response)
+                return response.json();
+            }
+
+            // Function to get pixel data
+            function getPixelData() {
+                e=fetch('/api/pixel_data')
+                    .then(deez)
+                    // .then(console.log)
+                    // .then(response => response.json())
+                    .then(data => {
+                        renderGrid(data);
+                    })
+                    .catch(error => console.error('Error fetching pixel data:', error));
+            }
+
+            // Function to render the grid
+            function renderGrid(data) {
+                gridContainer.innerHTML = ''; // Clear existing grid
+                console.log(data);
+                i=0;
+                data.forEach(pixel => {
+                    i++;
+                    const div = document.createElement('div');
+                    div.className = 'grid-item';
+                    div.style.backgroundColor = pixel.color;
+                    div.style.border='grey';
+                    div.id = i;
+                    div.addEventListener('click', () => editPixel(pixel.id));
+                    gridContainer.appendChild(div);
+                });
+            }
+
+            // Function to set a pixel
+            function setPixel(id, color) {
+                console.log(color.substring(1));
+                console.log(`/api/pixel?id=${id}&color=%23${color.substring(1)}`);//${color}
+                fetch(`/api/pixel?id=${id}&color=%23${color.substring(1)}`, {
+                    method: 'GET'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Pixel set:', data);
+                        // Reload the page to reflect the updated pixel color
+                        // location.reload();
+                        getPixelData();
+                    })
+                    .catch(error => console.error('Error setting pixel:', error));
+            }
+
+            // Function to edit a pixel
+            function editPixel(id) {
+                console.log(colorPicker)
+                // const newColor = colorPicker.value;
+                newColor = document.getElementById('colorPicker').value;
+                console.log(newColor)
+                setPixel(id, newColor);
+            }
+
+            // Event listener for the submit button
+            // submitButton.addEventListener('click', function () {
+            //     if (selectedPixel) {
+                    
+            //         const newColor = colorPicker.value;
+            //         const id       = selectedPixel.id;
+            //         setPixel(id, newColor);
+            //     }
+            // });
+            
+
+            
+            // Initial fetch of pixel data
+            getPixelData();
+        });
+    </script>
+</body>
+</html>

@@ -9,8 +9,6 @@ const app = express()
 const axios = require('axios');
 
 
-
-
 var mysql = require('mysql2');
 
 // images
@@ -21,6 +19,8 @@ var con = mysql.createConnection({
   password: "rootpassword",
   database: "mydatabase" // specify the database name
 });
+
+
 
 con.connect(function(err) {
   if (err) throw err;
@@ -42,12 +42,40 @@ con.connect(function(err) {
 
 
 
-
 app.get("/", (req, res, next) => {
     res.send("nothing here");
 });
 
+// pixel editing
+app.get("/pixel", (req, res, next) => {
+    
+    const id = req.query.id;
+    const color = req.query.color;
+    console.log(color);
+    const sql = `UPDATE pixels SET color = '${color}' WHERE id = ${id}`;
+    con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Result: " + result);
+        res.send(result);
+    });
+});
 
+// reset the pixels
+// for (let i = 0; i < 100; i++) {
+//     const sql = `INSERT INTO pixels ( color) VALUES ( 'FFFFFF')`;
+//     con.query(sql, function (err, result) {
+//         if (err) throw err;
+//         // console.log(`Pixel ${i} set to FFFFFF`);
+//     });
+// }
+
+app.get("/pixel_data", (req, res, next) => {
+    const sql = "SELECT * FROM pixels ORDER BY id";
+    con.query(sql, function (err, result) {
+        if (err) throw err;
+        res.json(result);
+    });
+});
 
 // Handling GET /hello request
 app.get("/hello", (req, res, next) => {
@@ -94,6 +122,30 @@ app.get('/iplog', (req, res) => {
             res.status(500).send('Error retrieving geolocation');
         });
         
+});
+
+
+// store data for a prank
+var run = true
+var rate = 500
+var beep=false
+
+app.get('/chirp', (req, res) => { // allow client read the remote settings
+    res.send(`[${run},${rate},${beep}]`);
+    beep=false
+});
+
+app.get('/activate', (req, res) => { // change the settings that the client will read
+    if (req.query.run !== undefined) {
+        run = req.query.run === 'true';
+    }
+    if (req.query.rate !== undefined) {
+        rate = Math.max(parseInt(req.query.rate, 10), 0);
+    }
+    if (req.query.beep !== undefined) {
+        beep = req.query.beep === 'true';
+    }
+    res.send(`[${run},${rate},${beep}]`);
 });
 
 
