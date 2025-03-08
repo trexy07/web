@@ -2,7 +2,6 @@
 const hostname = '0.0.0.0';
 const port = 3000;
 
-
 const express = require("express")
 const app = express()
 
@@ -13,19 +12,36 @@ var mysql = require('mysql2');
 
 // images
 // docker makes this break, because the db isn't ready in time
-var con = mysql.createConnection({
-  host: "mysql_db",
-  user: "root",
-  password: "rootpassword",
-  database: "mydatabase" // specify the database name
-});
+// var con = mysql.createConnection({
+//   host: "mysql_db",
+//   user: "t-rex",
+//   password: "yoursql",
+//   database: "mydatabase" // specify the database name
+// });
+var con;
 
 
+function connectWithRetry() {
+    console.log('Connecting to the database');
+    try {
+        con = mysql.createConnection({
+            host: "mysql_db",
+            user: "t-rex",
+            password: "yoursql",
+            database: "mydatabase" // specify the database name
+        });
+        con.connect();
+        console.log('Connected to the database');
+    }
+    catch{
+        console.log('Error connecting to the database:', err);
+        setTimeout(connectWithRetry, 2000);
+    }
+}
+// connectWithRetry();
+setTimeout(connectWithRetry, 2000);
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
+
 // app.get("/images", (req, res, next) => {
 //     console.log("images");
 //     const sql = "SELECT * FROM images";
@@ -59,6 +75,8 @@ app.get("/pixel", (req, res, next) => {
         res.send(result);
     });
 });
+
+
 
 // reset the pixels
 // for (let i = 0; i < 100; i++) {
