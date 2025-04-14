@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <script src="https://github.com/dbuezas/arduino-web-uploader/releases/download/v1.0.0/main.js"></script>
+        <link rel='stylesheet' href='css.css'>
+        <meta name="description" content="Arduino Web Uploader">
+    </head>
+    <body>
+        <div 
+        style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #C51A4A;
+            border-radius: 20px;
+            border: 10px solid #C51A4A;
+            "
+        >
+            <button
+                style="
+                    /* border: .2em solid #C51A4A;  */
+                    /* border:none; */
+                    border-radius: 10px;
+
+                    background-color: #6cc04a; 
+                    color: #303030;
+                    /* border-radius:4px; */
+                    font-size:1.5em;
+                    margin: 0px;
+                    padding: 10px;
+                    "
+                arduino-uploader
+                hex-href="compile/ENY.ino.hex"
+                board="uno"
+                verify
+                [optional]verify
+                > Upload code to arduino UNO <br> and verify uploaded code
+                <span class="upload-progress"></span>
+            </button>
+        </div>
+
+    </body>
+</html>
