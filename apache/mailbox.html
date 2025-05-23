@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Carter's Mailbox Files</title>
+    <style>
+        body { font-family: 
+            Arial, sans-serif; 
+            margin: 2em;  
+            background: linear-gradient(to bottom right, #1f0de0, #0d0663);
+            min-height: 100vh; 
+            min-width : 100vh; 
+            color: #fff;
+            
+        }
+        ul { list-style-type: none; padding: 0; background: transparent; }
+        li { padding: 0.5em 0; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; 
+            font-size: 1.5em;
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.2em;
+            padding: 0 1em;
+            border-radius: 0.5em;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            text-decoration: none;
+            margin-right: 0.5em;
+            font-size: 1.1em;
+            transition: background 0.2s;
+        }
+        .download-btn:hover {
+            background: #0056b3;
+            color: #fff;
+            text-decoration: none;
+        }
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.2em;
+            padding: 0 1em;
+            border-radius: 0.5em;
+            background: green;
+            color: #fff;
+            border: none;
+            text-decoration: none;
+            margin-right: 0.5em;
+            font-size: 1.1em;
+            transition: background 0.2s;
+        }
+        .upload-btn:hover {
+            background: #006600 ;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        /* Add CSS for delete button */
+        .delete-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.2em;
+            padding: 0 0.8em;
+            border-radius: 0.5em;
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            font-size: 1.1em;
+            margin-left: 0.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .delete-btn:hover {
+            background: #b52a37;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1em;">
+        <h1 style="margin: 0;">Carter's Mailbox Files</h1>
+        <button id="uploadBtn" class="upload-btn">Upload File</button>
+    </div>
+    <ul id="file-list">
+        <li>Loading files...</li>
+    </ul>
+    <input type="file" id="fileInput" style="display:none">
+    <script>
+        // Using JSONPlaceholder for demonstration
+        // fetch('https://jsonplaceholder.typicode.com/photos?_limit=10')
+        function list(){
+            fetch('/api/mailbox')
+                .then(response => response.json())
+                .then(files => {
+                    const fileList = document.getElementById('file-list');
+                    fileList.innerHTML = '';
+                    files.forEach(file => {
+                        const li = document.createElement('li');
+                        li.textContent = file.filename;
+
+                        // Create a container for the buttons
+                        const btnGroup = document.createElement('span');
+                        btnGroup.style.display = 'flex';
+                        btnGroup.style.alignItems = 'center';
+
+                        const downloadBtn = document.createElement('a');
+                        downloadBtn.textContent = 'Download';
+                        downloadBtn.className = 'download-btn';
+                        downloadBtn.href = file.path;
+                        downloadBtn.download = '';
+
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.innerHTML = '🗑️';
+                        deleteBtn.className = 'delete-btn';
+                        deleteBtn.title = 'Delete';
+                        deleteBtn.onclick = function() {
+                            if (confirm('Delete ' + file.filename + '?')) {
+                                fetch('/api/delete/' + file.filename, {
+                                    method: 'GET',
+                                    // headers: { 'Content-Type': 'application/json' },
+                                })
+                                .then(() => list())
+                                // .catch(() => {});
+                            }
+                        };
+
+                        btnGroup.appendChild(downloadBtn);
+                        btnGroup.appendChild(deleteBtn);
+                        // Clear li and add filename and button group
+                        li.textContent = '';
+                        li.appendChild(document.createTextNode(file.filename));
+                        li.appendChild(btnGroup);
+                        fileList.appendChild(li);
+                    });
+                })
+                .catch(() => {
+                    document.getElementById('file-list').innerHTML = '<li>Failed to load files.</li>';
+            });
+        }
+        list();
+        document.getElementById('uploadBtn').onclick = function() {
+            document.getElementById('fileInput').click();
+        };
+        document.getElementById('fileInput').onchange = function() {
+            if (this.files.length > 0) upload();
+        };
+        function upload() {
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) return;
+            const formData = new FormData();
+            formData.append('file', file);
+            fetch('api/upload', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(() => list())
+        }
+    </script>
+</body>
+</html>

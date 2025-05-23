@@ -9,6 +9,8 @@ const axios = require('axios');
 
 
 var mysql = require('mysql2');
+const fs = require('fs');
+const path = require('path');
 
 // images
 // docker makes this break, because the db isn't ready in time
@@ -165,6 +167,61 @@ app.get('/activate', (req, res) => { // change the settings that the client will
     }
     res.send(`[${run},${rate},${beep}]`);
 });
+
+// end prank
+
+// mailbox
+app.get('/mailbox', (req, res) => {
+    const dataDir = path.join(__dirname, 'mailbox');
+    fs.readdir(dataDir, (err, files) => {
+        if (err) {
+            console.log('Unable to scan directory: ' + err);
+            res.status(500).json({ error: 'Unable to read directory' });
+            return;
+        }
+        const result = files.map(filename => ({
+            filename,
+            path: path.join('mailbox', filename)
+        }));
+        res.json(result);
+    });
+
+});
+const multer = require('multer');
+// const upload = multer({ dest: 'mailbox/' }); // Set the destination for uploaded files
+const storage = multer.diskStorage({
+  destination: 'mailbox/',
+  filename: (req, file, cb) => {
+    cb(null, file.originalname); // keep original name
+  }
+});
+const upload = multer({ storage });
+
+app.post('/upload', upload.single('file'), (req, res) => {
+    console.log('upload');
+    // console.log(req.body);
+
+    res.send('ok');
+    
+});
+
+app.get('/delete/:filename', (req, res) => {
+    console.log('delete');
+    const filename = req.params.filename;
+    const filePath = path.join(__dirname, 'mailbox', filename);
+
+    fs.unlink(filePath, (err) => {
+        if (err) {
+            console.error('Error deleting file:', err);
+            res.status(500).json({ error: 'Unable to delete file' });
+            return;
+        }
+        res.json({ success: true, message: 'File deleted' });
+    });
+});
+
+
+
 
 
 app.get('*', function (req, res) {
