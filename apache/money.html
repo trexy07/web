@@ -154,56 +154,32 @@
   <body>
     
         <div align='middle' style="height: 90vh;">
-            <h id="header">Timer!</h1>
-            <!-- <section id="timer" class="docio_container"></section> -->
-            <section id="timer" class="docio_container">
-            </section>
-            
-            <div id="myProgress">
-              <div id="myBar" class="myBar" style="background-color: green;text-align: left;"> 
-                  <b id="percent" style="text-align: left; vertical-align: sub;">idk%</b>
-              </div>
-              <div id="1" class="myBar" > 
-                  <b class="barMarker">autumn|</b>
-              </div>
-              <div id="2" class="myBar"> 
-                  <b class="barMarker">winter|</b>
-              </div>
-              <div id="3" class="myBar"> 
-                  <b class="barMarker">spring|</b>
-              </div>
-              <div id="4" class="myBar" > 
-                  <b class="barMarker">summer|</b>
-              </div>
-            </div>
-        </div>
-        <div class="context-menu" id="contextMenu">
-            <ul id="checks">
-                <label for="c0"><li><input type="checkbox" checked id='c0' data-column="0">
-                    col index 0</li></label>
-                <label for="c1"><li><input type="checkbox" checked id='c1' data-column="1">
-                    won    </li></label>
-                <label for="c2"><li><input type="checkbox" checked id='c2' data-column="2">
-                    22222  </li></label>
-                <label for="c3"><li><input type="checkbox" checked id='c3' data-column="3">
-                    tree        </li></label>
-                <label for="c4">
-                    <li><input type="checkbox" checked id='c4' data-column="4">
-                        quatre      
-                    </li>
-                </label>
-            </ul>
-        </div>
-      
-        <div style="position: absolute; bottom: -100%;"><input type="range" min="0" max="100" value="16" id="timing" > <- changes update delay </div>
-        
-        <script src="/timer.js">
-        </script>
-      
-        <dir style="position: absolute; bottom: -100%; font-size:1.35vmax;"> 
-            <p id="1">[1] days are measured to be 24 hours</p>
-            <p id="2">[2] quantity of hotdogs Joey Chestunt (fastest eater) could eat in the given time</p>
-        </dir>
+            <h id="header">Money!</h>
+                <br>
 
+
+            <h id="Money" style="vertical-align: middle;">Money!</h>
+
+            <div style="position: absolute; bottom: -100%;"><input type="range" min="0" max="100" value="16" id="timing" > <- changes update delay </div>
+
+            <script>
+                function update() {
+                    // var now = new Date(Date.now());
+                    // now = new Date();
+                    // document.getElementById("header").innerHTML = new Date;
+                    window.setTimeout(update, document.getElementById("timing").value) // used for dynamic timing
+                    
+                    start = new Date();
+                    start.setHours(9, 0, 0, 0, 0);
+
+                    var now = new Date(Date.now());
+
+                    document.getElementById('Money').innerHTML="$"+((now-start)/1000/60/60*16).toFixed(3);
+                
+                }
+                update();
+            </script>
+            
+            
     </body>
 </html>
