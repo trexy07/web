@@ -7,10 +7,11 @@ const app = express()
 
 const axios = require('axios');
 
-
 var mysql = require('mysql2');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
+
 
 // images
 // docker makes this break, because the db isn't ready in time
@@ -34,8 +35,29 @@ function connectWithRetry() {
         });
         con.connect();
         console.log('Connected to the database');
+        // Add keep-alive ping to prevent timeout
+        setInterval(() => {
+            if (con && con.state === 'authenticated') {
+                con.ping(err => {
+                    if (err) {
+                        console.error('MySQL keep-alive error:', err);
+                    }
+                });
+            }
+        }, 60000); // every 60 seconds
+
+        // Add error handler to reconnect on disconnect
+        con.on('error', function (err) {
+            console.error('MySQL connection error:', err);
+            if (err.code === 'PROTOCOL_CONNECTION_LOST' || err.fatal) {
+                console.log('Reconnecting to the database...');
+                setTimeout(connectWithRetry, 2000);
+            } else {
+                throw err;
+            }
+        });
     }
-    catch{
+    catch (err) {
         console.log('Error connecting to the database:', err);
         setTimeout(connectWithRetry, 2000);
     }
@@ -60,9 +82,9 @@ setTimeout(connectWithRetry, 2000);
 
 
 
-app.get("/", (req, res, next) => {
-    res.send("nothing here");
-});
+// app.get("/", (req, res, next) => {
+//     res.send("nothing here");
+// });
 
 // pixel editing
 app.get("/pixel", (req, res, next) => {
@@ -171,26 +193,42 @@ app.get('/activate', (req, res) => { // change the settings that the client will
 // end prank
 
 // mailbox
-app.get('/mailbox', (req, res) => {
-    const dataDir = path.join(__dirname, 'mailbox');
+app.get('/mailbox/:subdir?', (req, res) => {
+    const subdir = req.params.subdir || '';
+    const safeSubdir = path.normalize(subdir).replace(/^(\.\.(\/|\\|$))+/, '');
+    const dataDir = path.join(__dirname, 'mailbox', safeSubdir);
+
     fs.readdir(dataDir, (err, files) => {
         if (err) {
             console.log('Unable to scan directory: ' + err);
             res.status(500).json({ error: 'Unable to read directory' });
             return;
         }
-        const result = files.map(filename => ({
-            filename,
-            path: path.join('mailbox', filename)
-        }));
+        // Add isFolder property for each item
+        const result = files.map(filename => {
+            const fullPath = path.join(dataDir, filename);
+            let isFolder = false;
+            try {
+                isFolder = fs.statSync(fullPath).isDirectory();
+            } catch {}
+            return {
+                filename,
+                path: path.join('mailbox', safeSubdir, filename),
+                isFolder
+            };
+        });
         res.json(result);
     });
 
 });
+
 const multer = require('multer');
-// const upload = multer({ dest: 'mailbox/' }); // Set the destination for uploaded files
 const storage = multer.diskStorage({
-  destination: 'mailbox/',
+  destination: (req, file, cb) => {
+    // Support folder query param for upload
+    const folder = req.query.folder ? path.normalize(req.query.folder).replace(/^(\.\.(\/|\\|$))+/, '') : '';
+    cb(null, path.join('mailbox', folder));
+  },
   filename: (req, file, cb) => {
     cb(null, file.originalname); // keep original name
   }
@@ -199,16 +237,15 @@ const upload = multer({ storage });
 
 app.post('/upload', upload.single('file'), (req, res) => {
     console.log('upload');
-    // console.log(req.body);
-
     res.send('ok');
     
 });
-
 app.get('/delete/:filename', (req, res) => {
     console.log('delete');
     const filename = req.params.filename;
-    const filePath = path.join(__dirname, 'mailbox', filename);
+    // Support folder query param for delete
+    const folder = req.query.folder ? path.normalize(req.query.folder).replace(/^(\.\.(\/|\\|$))+/, '') : '';
+    const filePath = path.join(__dirname, 'mailbox', folder, filename);
 
     fs.unlink(filePath, (err) => {
         if (err) {
@@ -219,10 +256,6 @@ app.get('/delete/:filename', (req, res) => {
         res.json({ success: true, message: 'File deleted' });
     });
 });
-
-
-
-
 
 app.get('*', function (req, res) {
     res.status(404).send('node dont know this path :(' + req.url);
