@@ -7,6 +7,13 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
         
+        @font-face {
+            font-family: 'segment';
+            src: url('../font/segment.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
         .docio_container {
             flex-shrink: 1;
             flex-grow: 1;
@@ -135,7 +142,58 @@
             background-color: #eee;
             border-radius: 20px;
         }
-       
+        .seven-segment {
+            font-family: 'SevenSegment', monospace;
+            letter-spacing: 0.1em;
+        }
+        .centered-grey-box {
+            border-radius: 40px;
+            border: 3px solid #888;
+            background: linear-gradient(180deg, #333 0%, #111 100%);
+            color: #f00;
+            text-align: center;
+            font: 5em 'segment', monospace;
+            padding: 0.7em 0.3em;
+            margin: .2em auto;
+            width: auto;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25), 0 0 0 8px #222 inset;
+            letter-spacing: 0.15em;
+            /* text-shadow: 0 0 12px #f00, 0 0 2px #fff; */
+            /* mimic digital clock glass reflection */
+            position: relative;
+            overflow: hidden;
+        }
+        /*
+        .centered-grey-box::before {
+            content: "";
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 25%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 30px;
+            pointer-events: none;
+            z-index: 1;
+        }
+        */
+        .centered-grey-box > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* FLASH animation for zero timer */
+        :root { --flash-duration: 1.2s; } /* flash duration */
+
+        @keyframes flash {
+            0%, 49% { opacity: 0.08; }
+            50%, 100% { opacity: 1; }
+        }
+        .flash {
+            /* use the variable so you can easily slow/peed up the flash */
+            animation: flash var(--flash-duration) steps(1, end) infinite;
+        }
+        
     </style>
 
       
@@ -153,13 +211,18 @@
   </head>
   <body>
     
-        <div align='middle' style="height: 90vh;">
+
+
+
+        <div align='middle'> <!-- style="height: 90vh;" -->
             <h id="header">Timer!</h1>
             <!-- <section id="timer" class="docio_container"></section> -->
             <section id="timer" class="docio_container">
             </section>
-            
-            <div id="myProgress">
+            <!-- <div id="timer">
+            </div> -->
+
+            <!-- <div id="myProgress">
               <div id="myBar" class="myBar" style="background-color: green;text-align: left;"> 
                   <b id="percent" style="text-align: left; vertical-align: sub;">idk%</b>
               </div>
@@ -175,35 +238,76 @@
               <div id="4" class="myBar" > 
                   <b class="barMarker">summer|</b>
               </div>
-            </div>
+            </div> -->
         </div>
-        <div class="context-menu" id="contextMenu">
-            <ul id="checks">
-                <label for="c0"><li><input type="checkbox" checked id='c0' data-column="0">
-                    col index 0</li></label>
-                <label for="c1"><li><input type="checkbox" checked id='c1' data-column="1">
-                    won    </li></label>
-                <label for="c2"><li><input type="checkbox" checked id='c2' data-column="2">
-                    22222  </li></label>
-                <label for="c3"><li><input type="checkbox" checked id='c3' data-column="3">
-                    tree        </li></label>
-                <label for="c4">
-                    <li><input type="checkbox" checked id='c4' data-column="4">
-                        quatre      
-                    </li>
-                </label>
-            </ul>
-        </div>
-      
-        <div style="position: absolute; bottom: -100%;"><input type="range" min="0" max="100" value="16" id="timing" > <- changes update delay </div>
-        
-        <script src="/timer.js">
-        </script>
-      
-        <dir style="position: absolute; bottom: -100%; font-size:1.35vmax;"> 
-            <p id="1">[1] days are measured to be 24 hours</p>
-            <p id="2">[2] quantity of hotdogs Joey Chestunt (fastest eater) could eat in the given time</p>
-        </dir>
 
+        <div class="centered-grey-box">
+            <span style="position: relative; display: inline-block;">
+                <span id="ghost-eights" aria-hidden="true"
+                    style="
+                        position: absolute;
+                        left: 0; top: 0; width: 100%; height: 100%;
+                        color: #600;
+                        opacity: .5;
+                        z-index: 1;
+                        font: inherit;
+                        pointer-events: none;
+                        user-select: none;
+                        text-align: center;
+                        letter-spacing: inherit;
+                        text-shadow: 0 0 12px #f00, 0 0 2px #fff;
+                    ">
+                    8888:88:88.888
+                </span>
+                <span id="mixed" style="position: relative; z-index: 2; text-shadow: 0 0 12px #f00, 0 0 2px #fff;">
+                    123:45:67.890
+                </span>
+                <span id="mixed2" aria-hidden="true"
+                    style="
+                        position: absolute;
+                        left: 0; top: 45%; width: 100%;
+                        color: #f00;
+                        opacity: 1;
+                        z-index: 2;
+                        font: inherit;
+                        pointer-events: none;
+                        user-select: none;
+                        text-align: center;
+                        letter-spacing: inherit;
+                        text-shadow: 0 0 12px #f00, 0 0 2px #fff;
+                        transform: scaleY(-0.35);
+                        filter: blur(1px);
+                        height: 1.2em;
+                        overflow: hidden;
+                        /* gradient fade out */
+                        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.25) 60%, transparent 100%);
+                        mask-image: linear-gradient(to bottom, rgba(0,0,0,0.25) 60%, transparent 100%);
+                    ">
+                    123:45:67.890
+                </span>
+            </span>
+        </div>
+      
+        
+        
+        <script src="/timer2.js">
+        </script>
+
+        <!-- <br> -->
+        
+      
+        <!-- <dir style="position: absolute; bottom: -100%; font-size:1.35vmax;">  -->
+            <p id="1">[1] Days are measured to be 24 hours</p>
+            <p id="2">[2] Years are measured as the average gregorian year (365.2425 days)</p>
+            <p id="3">[3] an Eon is measured as 1 billion years</p>
+            <p id="4">[4] <a href="https://www.youtube.com/watch?v=m7D8ilwnUzk">inspiration</a> of snail-miles</p>
+            <p id="5">[5] Hotdogs are measured as the quantity Joey Chestnut (fastest competitive eater) could eat in the given time</p>
+        <!-- </dir> -->
+        <!-- <div style="position: absolute; bottom: -100%;"> -->
+            <input type="range" min="0" max="100" value="16" id="timing" > <- changes update delay 
+        <!-- </div> -->
+        <script>
+            update()
+        </script>
     </body>
 </html>
